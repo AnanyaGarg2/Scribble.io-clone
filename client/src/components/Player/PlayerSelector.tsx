@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 
 const INK = "#221B2E";
 const PAPER = "#FFF7E8";
@@ -17,7 +17,7 @@ const BODY_LABELS = ["round", "wobbly", "boxy", "flower-shaped", "cloud-shaped"]
 const EYE_LABELS = ["round eyes", "sleepy eyes", "a wink", "star eyes", "swirly eyes"];
 const MOUTH_LABELS = ["a big smile", "a surprised gasp", "a flat stare", "a fangy grin", "a wiggly giggle"];
 
-function starPath(cx, cy, r, points) {
+function starPath(cx: number, cy: number, r: number, points: number) {
   const step = Math.PI / points;
   let d = "";
   for (let i = 0; i < points * 2; i++) {
@@ -30,8 +30,13 @@ function starPath(cx, cy, r, points) {
   return d + "Z";
 }
 
-function BodyShape({ id, fill }) {
-  const common = { fill, stroke: INK, strokeWidth: 6, strokeLinejoin: "round" };
+function BodyShape({ id, fill }: { id: number; fill: string }) {
+  const common = {
+    fill,
+    stroke: INK,
+    strokeWidth: 6,
+    strokeLinejoin: "round" as const,
+  };
   switch (id) {
     case 0:
       return <circle cx="100" cy="104" r="74" {...common} />;
@@ -69,10 +74,15 @@ function BodyShape({ id, fill }) {
   }
 }
 
-function EyesShape({ id }) {
+function EyesShape({ id }: { id: number }) {
   const L = { cx: 74, cy: 96 };
   const R = { cx: 126, cy: 96 };
-  const stroke = { stroke: INK, strokeWidth: 5, strokeLinecap: "round", fill: "none" };
+  const stroke = {
+    stroke: INK,
+    strokeWidth: 5,
+    strokeLinecap: "round" as const,
+    fill: "none",
+  };
   switch (id) {
     case 0:
       return (
@@ -117,7 +127,7 @@ function EyesShape({ id }) {
   }
 }
 
-function MouthShape({ id }) {
+function MouthShape({ id }: { id: number }) {
   const cx = 100,
     cy = 148;
   switch (id) {
@@ -156,7 +166,19 @@ function MouthShape({ id }) {
   }
 }
 
-function Character({ bodyId, eyeId, mouthId, color, size }) {
+function Character({
+  bodyId,
+  eyeId,
+  mouthId,
+  color,
+  size,
+}: {
+  bodyId: number;
+  eyeId: number;
+  mouthId: number;
+  color: string;
+  size: number | string;
+}) {
   return (
     <svg viewBox="0 0 200 200" width={size} height={size}>
       <BodyShape id={bodyId} fill={color} />
@@ -166,7 +188,7 @@ function Character({ bodyId, eyeId, mouthId, color, size }) {
   );
 }
 
-function stickerButton(selected) {
+function stickerButton(selected: boolean): CSSProperties {
   return {
     border: `3px solid ${INK}`,
     borderRadius: 14,
@@ -209,7 +231,19 @@ const CustomizableCharacter = () => {
     setSpin((s) => s + 1);
   };
 
-  const Row = ({ label, count, current, onPick, renderThumb }) => (
+  const Row = ({
+    label,
+    count,
+    current,
+    onPick,
+    renderThumb,
+  }: {
+    label: string;
+    count: number;
+    current: number;
+    onPick: (index: number) => void;
+    renderThumb: (index: number) => ReactNode;
+  }) => (
     <div style={{ marginBottom: 14 }}>
       <p style={{ margin: "0 0 6px 2px", fontSize: 13, fontWeight: 700, color: INK, opacity: 0.75 }}>{label}</p>
       <div style={{ display: "flex", gap: 8 }}>

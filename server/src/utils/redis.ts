@@ -6,7 +6,7 @@ import { exec } from "child_process";
 configDotenv();
 
 const client = redis.createClient({
-  url: process.env.REDDIS_URL,
+  url: process.env.REDIS_URL ?? process.env.REDDIS_URL,
 });
 
 client.on("error", (err) => {

@@ -51,6 +51,16 @@ Players join a room using a unique room ID. If the drawer takes too long to choo
 
 The frontend is developed using React with TypeScript and Vite for a fast development experience.
 
+## Deploy on Railway
+
+The included Dockerfile deploys the frontend and Socket.IO server as one web service, so the game uses a single public URL.
+
+1. Create a Railway project, then add a **Redis** database and a service from this GitHub repository.
+2. In the web service's variables, set `REDIS_URL` to `${{Redis.REDIS_URL}}` (use the actual Redis service name if you rename it).
+3. Deploy the service and generate a public domain in **Settings → Networking**. That domain is the live project link.
+
+Railway provides `PORT` automatically. For local development, copy `server/.env.example` to `server/.env` and set `REDIS_URL` (the older `REDDIS_URL` name is still supported).
+
 ## Installation
 
   ### Clone the repository
