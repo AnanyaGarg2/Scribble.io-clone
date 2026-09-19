@@ -61,6 +61,18 @@ The included Dockerfile deploys the frontend and Socket.IO server as one web ser
 
 Railway provides `PORT` automatically. For local development, copy `server/.env.example` to `server/.env` and set `REDIS_URL` (the older `REDDIS_URL` name is still supported).
 
+## Deploy the frontend on Vercel
+
+This project can use Vercel for the React frontend and the Docker deployment above for the persistent Socket.IO/Redis backend.
+
+1. Deploy the backend first and note its public URL, for example `https://your-backend.example.com`.
+2. In the backend environment, set `FRONTEND_URL` to the Vercel production URL after it is created.
+3. Import this repository into Vercel and set the **Root Directory** to `client`.
+4. In Vercel's environment variables, set `VITE_SOCKET_URL` to the backend's public URL. It is intentionally public and must not contain a secret.
+5. Deploy. Vercel detects Vite and builds the `dist` directory automatically.
+
+For local development, leave `VITE_SOCKET_URL` unset so Vite proxies Socket.IO to `http://localhost:8000`.
+
 ## Installation
 
   ### Clone the repository
